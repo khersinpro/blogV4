@@ -26,6 +26,18 @@
     padding:1rem 1.5rem;
 }
 
+.article-author{
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 5px;
+}
+
+.article-author p{
+    font-size: 1.2rem;
+    font-weight: 700;
+    font-style: italic;
+}
+
 .img-container {
     height: 30rem;
     background-size: cover;
@@ -39,6 +51,15 @@
 
 .category-container {
     flex: 200px;
+}
+@media (max-width: 800px) {
+    .articles-container{
+        flex-direction: column;
+        align-items: unset;
+    }
+    .category-container{
+        display: none;
+    }
 }
 
 .category-container li {
