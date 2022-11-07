@@ -1,29 +1,15 @@
-<?php
-require_once __DIR__.'/database/database.php';
-$authDb = require_once __DIR__.'/database/security.php';
-$currentUser = $authDb->isLoggedin();
-$articleDb = require_once __DIR__.'/database/models/ArticleDB.php';
-$articles = [];
-
-if(!$currentUser) {
-    header('Location: /');
-}
-
-$articles = $articleDb->fetchUserArticle($currentUser['id']);
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <?php require_once 'includes/head.php' ?>
-    <link rel="stylesheet" href="/public/css/profile.css">
-    <title>Logout</title>
+    <?php require_once '../includes/head.php' ?>
+    <link rel="stylesheet" href="/css/profile.css">
+    <title>Profile</title>
 </head>
 
 <body>
     <div class="container">
-        <?php require_once 'includes/header.php' ?>
+        <?php require_once '../includes/header.php' ?>
         <div class="content">
             <h1>Mon espace</h1>
             <h2>Mes informations</h2>
@@ -50,15 +36,27 @@ $articles = $articleDb->fetchUserArticle($currentUser['id']);
                         <li>
                             <span><?= $a['title'] ?></span>
                             <div class="article-actions">
-                                <a href="/form-article.php?id=<?= $a['id'] ?>" class="btn btn-primary btn-small">Modifier</a>
-                                <a href="/delete-article.php?id=<?= $a['id'] ?>" class="btn btn-secondary btn-small">Supprimer</a>
+                                <a href="/article/form?id=<?= $a['id'] ?>" class="btn btn-primary btn-small">Modifier</a>
+                                <form action="/article/delete?id=<?= $a['id'] ?>" method="post"> 
+                                    <input type="hidden" value="<?= $currentUser['csrfToken'] ?>" name="csrf" >
+                                    <button class="btn btn-secondary btn-small" type="submit">Supprimer</button>
+                                </form>
                             </div>
                         </li>
                     <?php endforeach ?>
                 </ul>
             </div>
+            <div class="pagination-container">
+                    <ul class="pagination-list">
+                        <?php for ($i = 1; $i <= $pageLength; $i++) : ?>
+                            <li class="<?= $i === (int)$currentPage  ? "selected" : ""?>">
+                                <a href="/profile?page=<?=$i?>" ><?= $i ?></a>
+                            </li>
+                        <?php endfor ?>
+                    </ul>
+                </div>
         </div>
-        <?php require_once 'includes/footer.php' ?>
+        <?php require_once '../includes/footer.php' ?>
     </div>
 
 </body>

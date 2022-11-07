@@ -1,7 +1,7 @@
 <?php 
-require_once '../models/router.php';
+require '../vendor/autoload.php';
 
-$router = new Router;
+$router = new App\Router;
 
 $router->register('/', function () {
     require '../controllers/homepage.php';
@@ -27,8 +27,16 @@ $router->register('/login', function () {
 $router->register('/register', function () {
     require '../controllers/auth-register.php';
 });
+$router->register('/error', function () {
+    require '../views/error.php';
+});
 
+try {
+    $router->resolve($_SERVER['REQUEST_URI']);
+} catch (Exception $e) {
+    // header('Location: /error');
+    echo $e->getMessage();
+}
 
-$router->resolve($_SERVER['REQUEST_URI']);
 
 

@@ -21,6 +21,11 @@
     border: var(--border);
     background: white;
 }
+.article-actions{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 @media (max-width: 800px) {
     .articles-list ul li {
